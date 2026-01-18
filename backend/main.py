@@ -34,7 +34,8 @@ async def voice_chat(audio: UploadFile = File(...)):
     print(f"User said: {text}")
 
     # 3. Agentic Logic
-    response_text = run_agent(text)
+    # For a simple demo, we use a single thread. In production, this would come from a cookie or session.
+    response_text = run_agent(text, thread_id="user_session_1")
     print(f"Agent response: {response_text}")
 
     # 4. TTS
