@@ -1,0 +1,26 @@
+# Environment variables
+.env
+
+# Python virtual environment
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Node dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Backend temp audio files
+backend/temp_audio/*
+!backend/temp_audio/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db

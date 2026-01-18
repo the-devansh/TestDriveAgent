@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+pydantic
+langchain
+langchain-groq
+langgraph
+transformers
+torch
+torchaudio
+soundfile
+numpy
+python-multipart
+python-dotenv
+httpx
+librosa

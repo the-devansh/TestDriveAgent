@@ -1,0 +1,43 @@
+{
+  "suvs": [
+    {
+      "model": "TrailBlazer X",
+      "engine": "2.0L Turbo",
+      "features": ["All-Wheel Drive", "Panoramic Sunroof", "Adaptive Cruise Control"],
+      "price": "$35,000",
+      "available_colors": ["Summit White", "Mosaic Black", "Iridescent Pearl"]
+    },
+    {
+      "model": "MountainPeak 360",
+      "engine": "3.5L V6",
+      "features": ["7-Seater", "Towing Package", "Heated Seats"],
+      "price": "$42,000",
+      "available_colors": ["Forest Green", "Silver Ice", "Blue Glow"]
+    }
+  ],
+  "sedans": [
+    {
+      "model": "Velocity S",
+      "engine": "1.5L EcoBoost",
+      "features": ["Leather Interior", "Premium Sound System", "Lane Keep Assist"],
+      "price": "$28,000",
+      "available_colors": ["Rapid Red", "Carbonized Gray", "Velocity Blue"]
+    },
+    {
+      "model": "EcoCruise Hybrid",
+      "engine": "2.0L Hybrid",
+      "features": ["Exceptional Fuel Economy", "Touchscreen Display", "Wireless Charging"],
+      "price": "$31,000",
+      "available_colors": ["Silver Mist", "Pure Black", "Cloud White"]
+    }
+  ],
+  "electric": [
+    {
+      "model": "VoltStream EV",
+      "engine": "Dual Motor Electric",
+      "features": ["300-mile Range", "Fast Charging", "Autopilot"],
+      "price": "$45,000",
+      "available_colors": ["Electric Blue", "Solar Orange", "Space Gray"]
+    }
+  ]
+}
