@@ -51,6 +51,28 @@ async def voice_chat(audio: UploadFile = File(...)):
         "audio_url": f"/audio/{os.path.basename(output_filename)}"
     }
 
+@app.get("/greet")
+async def greet():
+    """Returns an initial greeting audio on page load."""
+    thread_id = "user_session_1"
+    greeting_text = "Hello! Welcome to our dealership. How can I help you today? I can help you find SUVs, sedans, or book a test drive."
+    
+    # Use full path for saving
+    output_filename = f"{uuid.uuid4()}_greeting.wav"
+    output_path = os.path.join(UPLOAD_DIR, output_filename)
+    speech_service.synthesize(greeting_text, output_path)
+    
+    # Store greeting in history
+    from logic.agents import app as agent_app
+    from langchain_core.messages import AIMessage
+    config = {"configurable": {"thread_id": thread_id}}
+    agent_app.update_state(config, {"messages": [AIMessage(content=greeting_text)]})
+
+    return {
+        "text": greeting_text,
+        "audio_url": f"/audio/{output_filename}"
+    }
+
 @app.get("/audio/{filename}")
 async def get_audio(filename: str):
     file_path = f"{UPLOAD_DIR}/{filename}"

@@ -1,55 +1,98 @@
-# Multi-Agent Voice Assistant for Auto Dealership
+# DriveAI: Multi-Agent Voice Assistant for Test Drives
 
-This project implements a voice-powered multi-agent assistant to help customers book test drives at an auto dealership.
+DriveAI is a state-of-the-art multi-agent voice assistant designed for automotive dealerships. It provides a seamless, hands-free experience for customers to browse car models and book test drives using natural language.
 
-## Tech Stack
-- **Backend**: FastAPI, Python, LangGraph, LangChain, Groq (Llama-3), Hugging Face (Whisper & MMS-TTS)
-- **Frontend**: Next.js, Tailwind CSS, Lucide React, Framer Motion
+---
 
-## Prerequisites
-- Python 3.9+
-- Node.js 18+
-- Groq API Key
+## 🚀 Key Features
 
-## Setup Instructions
+-   **Proactive Voice Greeting**: Greets users verbally upon starting the consultation.
+-   **Multi-Agent Orchestration**: Powered by **LangGraph** and **Groq (Llama 3.3)** to manage deep conversational state.
+-   **Interactive Flow**: Automatically lists car models based on category intent and confirms specific choices.
+-   **Local Persistence**: Saves all test drive bookings to a local `bookings.json` database.
+-   **Modern UI**: Glassmorphic React interface with real-time voice activity animations.
+-   **Local Speech Processing**: Uses Hugging Face's **Whisper-tiny** (STT) and **MMS-TTS** (TTS) for high-speed, local processing.
 
-### Backend
-1. Navigate to the `backend` directory:
-   ```bash
-   cd backend
-   ```
-2. Activate the virtual environment:
-   ```bash
-   .\venv\Scripts\Activate.ps1
-   ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Create a `.env` file and add your Groq API key:
-   ```env
-   GROQ_API_KEY=your_groq_api_key_here
-   ```
-5. Run the server:
-   ```bash
-   python main.py
-   ```
+---
 
-### Frontend
-1. Navigate to the `frontend` directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Run the development server:
-   ```bash
-   npm run dev
-   ```
+## 🛠️ Tech Stack
 
-## Usage
-1. Open the frontend at `http://localhost:3000`.
-2. Click the microphone icon and say: "I want to book a test drive for an SUV."
-3. Follow the agent's instructions to pick a model and confirm the time.
+-   **Backend**: FastAPI, LangGraph, LangChain, Groq API, Transformers, Torch.
+-   **Frontend**: Next.js 15, Tailwind CSS, Framer Motion, Axios.
+-   **Speech**: OpenAI Whisper (STT), Facebook MMS (TTS).
+
+---
+
+## 📋 Prerequisites
+
+-   **Python 3.10+**
+-   **Node.js 18+**
+-   **Groq API Key**: Get one at [console.groq.com](https://console.groq.com).
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/the-devansh/TestDriveAgent.git
+cd TestDriveAssistant
+```
+
+### 2. Backend Setup
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: .\venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+**Environment Variables**:
+Create a `.env` file in the `backend/` directory:
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+### 3. Frontend Setup
+```bash
+cd ../frontend
+npm install
+```
+
+---
+
+## 🏃 Running the Application
+
+### Start the Backend
+```bash
+cd backend
+python main.py
+```
+*The server will run at `http://localhost:8000`*
+
+### Start the Frontend
+```bash
+cd frontend
+npm run dev
+```
+*The app will be available at `http://localhost:3000`*
+
+---
+
+## 🎙️ Sample Conversation Flow
+
+1.  **Start**: Click "Start Consultation" to hear the greeting.
+2.  **Intent**: *"I want to book a test drive for an SUV tomorrow at 11 AM."*
+3.  **Discovery**: Agent lists SUVs (e.g., TrailBlazer X, MountainPeak 360) and asks for confirmation.
+4.  **Confirmation**: *"The TrailBlazer please."*
+5.  **Success**: Agent confirms booking and saves it to `backend/data/bookings.json`.
+
+---
+
+## 📂 Project Structure
+
+- `backend/logic/agents.py`: LangGraph state machine and tool definitions.
+- `backend/services/speech.py`: STT/TTS local model integration.
+- `backend/data/`: `cars.json` (Knowledge Base) & `bookings.json` (Local DB).
+- `frontend/src/components/VoiceInterface.tsx`: Main voice UI logic.
+- `frontend/src/lib/wav-utils.ts`: Browser-side audio processing.

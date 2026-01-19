@@ -11,10 +11,30 @@ export default function VoiceInterface() {
     const [isProcessing, setIsProcessing] = useState(false);
     const [userTranscript, setUserTranscript] = useState("");
     const [agentResponse, setAgentResponse] = useState("");
+    const [hasStarted, setHasStarted] = useState(false);
     const [audioUrl, setAudioUrl] = useState<string | null>(null);
 
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const audioChunksRef = useRef<Blob[]>([]);
+
+    const handleStart = async () => {
+        setIsProcessing(true);
+        try {
+            const res = await axios.get("http://localhost:8000/greet");
+            setAgentResponse(res.data.text);
+            const fullAudioUrl = `http://localhost:8000${res.data.audio_url}`;
+            setAudioUrl(fullAudioUrl);
+            const audio = new Audio(fullAudioUrl);
+            await audio.play();
+            setHasStarted(true);
+        } catch (err) {
+            console.error("Failed to initialize greeting:", err);
+            // Even if audio fails, let them start so they can click the mic
+            setHasStarted(true);
+        } finally {
+            setIsProcessing(false);
+        }
+    };
 
     const startRecording = async () => {
         try {
@@ -30,8 +50,6 @@ export default function VoiceInterface() {
             mediaRecorder.onstop = async () => {
                 const audioBlob = new Blob(audioChunksRef.current);
                 const arrayBuffer = await audioBlob.arrayBuffer();
-
-                // Use 16000Hz specifically for Whisper compatibility
                 const audioContext = new AudioContext({ sampleRate: 16000 });
                 const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
                 const wavBlob = bufferToWav(audioBuffer);
@@ -64,10 +82,10 @@ export default function VoiceInterface() {
 
             setUserTranscript(user_text);
             setAgentResponse(agent_text);
-            setAudioUrl(`http://localhost:8000${audio_url}`);
+            const fullUrl = `http://localhost:8000${audio_url}`;
+            setAudioUrl(fullUrl);
 
-            // Auto-play response
-            const audio = new Audio(`http://localhost:8000${audio_url}`);
+            const audio = new Audio(fullUrl);
             audio.play();
         } catch (err) {
             console.error("Error sending voice to backend:", err);
@@ -75,6 +93,27 @@ export default function VoiceInterface() {
             setIsProcessing(false);
         }
     };
+
+    if (!hasStarted) {
+        return (
+            <div className="flex flex-col items-center justify-center space-y-6 p-12 bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl">
+                <h2 className="text-3xl font-bold text-white mb-2">DriveAI Assistant</h2>
+                <p className="text-gray-300 text-center max-w-sm">Tap below to start your personalized dealership consultation.</p>
+                <button
+                    onClick={handleStart}
+                    disabled={isProcessing}
+                    className="mt-4 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold shadow-lg transition-all flex items-center space-x-3 disabled:opacity-50"
+                >
+                    {isProcessing ? (
+                        <Loader2 className="w-6 h-6 animate-spin" />
+                    ) : (
+                        <Volume2 className="w-6 h-6" />
+                    )}
+                    <span>Start Consultation</span>
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div className="flex flex-col items-center justify-center space-y-8 p-8 bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl">
